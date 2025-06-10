@@ -1,0 +1,24 @@
+base_model: meta-llama/Llama-2-7b-hf
+model_type: llama
+load_in_8bit: true
+use_peft: true
+peft_type: lora
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.05
+
+dataset:
+  train_file: compliance_lora_training_data.jsonl
+  prompt_template: alpaca
+  dataset_format: json
+  max_seq_length: 2048
+
+output_dir: ./lora_compliance_output
+num_train_epochs: 3
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 2
+learning_rate: 2e-4
+logging_steps: 10
+save_steps: 50
+bf16: true
+report_to: none
