@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox Sentinel: Professional-Grade Phishing Detection System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+            transition: background 0.5s ease;
+        }
+
+        .presentation-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .slide h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #ffd93d;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .slide h3 {
+            font-size: 1.6rem;
+            margin: 1rem 0;
+            color: #a8e6cf;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0.8rem 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .architecture-diagram {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .workflow-step {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #ffd93d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 0.5rem;
+        }
+
+        .ml-models {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .model-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            text-align: center;
+        }
+
+        .accuracy-badge {
+            background: linear-gradient(45deg, #43e97b, #38f9d7);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Inbox Sentinel</h1>
+            <h2>Professional-Grade Phishing Detection System</h2>
+            <div class="highlight-box">
+                <h3>🛡️ Advanced Email Security</h3>
+                <p>Multiple ML algorithms with 93-96% accuracy for spam & phishing detection</p>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-badge">🐍 Python</span>
+                <span class="tech-badge">🧠 Machine Learning</span>
+                <span class="tech-badge">🔒 Privacy-First</span>
+                <span class="tech-badge">⚡ Local Processing</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Email Security Challenge -->
+        <div class="slide">
+            <h2>The Email Security Challenge</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🎯 Sophisticated Attacks</h3>
+                    <p>Phishing attacks becoming increasingly sophisticated and targeted</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>📊 Volume Problem</h3>
+                    <p>Billions of spam emails sent daily overwhelming filters</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🔐 Privacy Concerns</h3>
+                    <p>Cloud-based solutions expose sensitive email content</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>⚡ Real-time Needs</h3>
+                    <p>Immediate detection required to prevent security breaches</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Solution -->
+        <div class="slide">
+            <h2>Inbox Sentinel Solution</h2>
+            <div class="highlight-box">
+                <h3>🔒 Local Processing, Maximum Privacy</h3>
+                <p>Professional-grade detection without compromising privacy</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">161,640</div>
+                    <p>Training Emails</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <p>ML Algorithms</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">93-96%</div>
+                    <p>Accuracy Range</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <p>Privacy Protection</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: ML Detection Models -->
+        <div class="slide">
+            <h2>Multiple ML Detection Models</h2>
+            <div class="ml-models">
+                <div class="model-card">
+                    <h3>🌲 Random Forest</h3>
+                    <p>Ensemble method for robust classification</p>
+                    <div class="accuracy-badge">94% Accuracy</div>
+                </div>
+                <div class="model-card">
+                    <h3>🎯 SVM</h3>
+                    <p>Support Vector Machine for pattern recognition</p>
+                    <div class="accuracy-badge">93% Accuracy</div>
+                </div>
+                <div class="model-card">
+                    <h3>🧠 Neural Network</h3>
+                    <p>Deep learning for complex pattern detection</p>
+                    <div class="accuracy-badge">95% Accuracy</div>
+                </div>
+                <div class="model-card">
+                    <h3>📊 Logistic Regression</h3>
+                    <p>Statistical approach for binary classification</p>
+                    <div class="accuracy-badge">92% Accuracy</div>
+                </div>
+                <div class="model-card">
+                    <h3>🔍 Naive Bayes</h3>
+                    <p>Probabilistic classifier for text analysis</p>
+                    <div class="accuracy-badge">91% Accuracy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Core Features -->
+        <div class="slide">
+            <h2>Core Features</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>🔒 Local Processing</h3>
+                    <p>Complete privacy with on-device analysis</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🎯 Multi-Algorithm</h3>
+                    <p>5 ML models for comprehensive detection</p>
+                </div>
+                <div class="feature-item">
+                    <h3>📊 Confidence Scoring</h3>
+                    <p>Risk assessment with detailed confidence levels</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🔄 Consensus Mode</h3>
+                    <p>Multiple algorithms vote for final decision</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🤖 LLM Integration</h3>
+                    <p>Optional advanced analysis with Ollama</p>
+                </div>
+                <div class="feature-item">
+                    <h3>📧 Forwarded Email Support</h3>
+                    <p>Parse and analyze forwarded email content</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: How It Works -->
+        <div class="slide">
+            <h2>How It Works</h2>
+            <div class="architecture-diagram">
+                <div class="workflow-step">
+                    <strong>📧 Step 1: Email Input</strong><br>
+                    Raw email content or file input with header parsing
+                </div>
+                <div class="workflow-step">
+                    <strong>🔍 Step 2: Feature Extraction</strong><br>
+                    Extract linguistic, structural, and metadata features
+                </div>
+                <div class="workflow-step">
+                    <strong>🧠 Step 3: Multi-Model Analysis</strong><br>
+                    Run through 5 different ML algorithms simultaneously
+                </div>
+                <div class="workflow-step">
+                    <strong>🤖 Step 4: Orchestration</strong><br>
+                    Consensus voting or LLM-powered final decision
+                </div>
+                <div class="workflow-step">
+                    <strong>📊 Step 5: Risk Assessment</strong><br>
+                    Confidence scoring and detailed threat analysis
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Detection Strategies -->
+        <div class="slide">
+            <h2>Detection Strategies</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🗳️ Simple Consensus</h3>
+                    <p>Majority vote from 5 ML models<br>
+                    Fast and efficient<br>
+                    High accuracy through ensemble</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🤖 LLM-Powered</h3>
+                    <p>Advanced analysis with Ollama<br>
+                    Context-aware decisions<br>
+                    Sophisticated threat assessment</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🔍 Individual Models</h3>
+                    <p>Single algorithm analysis<br>
+                    Specific use cases<br>
+                    Detailed model insights</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Privacy & Security -->
+        <div class="slide">
+            <h2>Privacy & Security</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🔒 Local Processing</h3>
+                    <p>All analysis happens on your device<br>
+                    No data sent to external servers<br>
+                    Complete email content privacy</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🛡️ Secure Architecture</h3>
+                    <p>MIT License open source<br>
+                    Transparent algorithms<br>
+                    Auditable codebase</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🔐 Zero Trust</h3>
+                    <p>No cloud dependencies<br>
+                    Offline capable<br>
+                    Your data stays yours</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Technology Stack -->
+        <div class="slide">
+            <h2>Technology Stack</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🐍 Core Platform</h3>
+                    <p><strong>Python</strong><br>
+                    scikit-learn, pandas, numpy</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🤖 ML Libraries</h3>
+                    <p><strong>Multiple Frameworks</strong><br>
+                    TensorFlow, PyTorch, sklearn</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🔧 Integration</h3>
+                    <p><strong>FastMCP + Ollama</strong><br>
+                    CLI and Python API support</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🧪 Testing</h3>
+                    <p><strong>Comprehensive Suite</strong><br>
+                    Unit tests, integration tests</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Use Cases -->
+        <div class="slide">
+            <h2>Use Cases</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>🏢 Enterprise Security</h3>
+                    <p>Corporate email protection</p>
+                </div>
+                <div class="feature-item">
+                    <h3>👥 Personal Protection</h3>
+                    <p>Individual email security</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🔍 Security Research</h3>
+                    <p>Threat analysis and research</p>
+                </div>
+                <div class="feature-item">
+                    <h3>📊 Email Analytics</h3>
+                    <p>Spam pattern analysis</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🛡️ SOC Integration</h3>
+                    <p>Security operations center tools</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🤖 API Integration</h3>
+                    <p>Automated security workflows</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: API & CLI -->
+        <div class="slide">
+            <h2>API & CLI Interface</h2>
+            <div class="architecture-diagram">
+                <h3>🔌 Multiple Interfaces</h3>
+                <div class="workflow-step">
+                    <strong>Command Line:</strong> inbox-sentinel analyze email.txt
+                </div>
+                <div class="workflow-step">
+                    <strong>Python API:</strong> from inbox_sentinel import analyze_email
+                </div>
+                <div class="workflow-step">
+                    <strong>FastMCP Server:</strong> Distributed processing capability
+                </div>
+                <div class="workflow-step">
+                    <strong>Batch Processing:</strong> Analyze multiple emails simultaneously
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Getting Started -->
+        <div class="slide">
+            <h2>Getting Started</h2>
+            <div class="highlight-box">
+                <h3>🚀 Quick Setup</h3>
+                <div class="architecture-diagram">
+                    <div class="workflow-step">
+                        <strong>1. Install:</strong> <code>pip install inbox-sentinel</code>
+                    </div>
+                    <div class="workflow-step">
+                        <strong>2. Train:</strong> <code>make train</code> (optional - pre-trained models included)
+                    </div>
+                    <div class="workflow-step">
+                        <strong>3. Analyze:</strong> <code>inbox-sentinel analyze suspicious_email.txt</code>
+                    </div>
+                    <div class="workflow-step">
+                        <strong>4. Integrate:</strong> Use Python API or CLI in your workflows
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Benefits -->
+        <div class="slide">
+            <h2>Key Benefits</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🔒 Privacy First</h3>
+                    <p>100% local processing ensures complete email privacy</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🎯 High Accuracy</h3>
+                    <p>93-96% accuracy across multiple ML models</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>💰 Cost Effective</h3>
+                    <p>No ongoing cloud costs or subscription fees</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🔧 Flexible</h3>
+                    <p>CLI, API, and integration options available</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Thank You -->
+        <div class="slide">
+            <h1>Thank You</h1>
+            <h2>Questions & Discussion</h2>
+            <div class="highlight-box">
+                <h3>🔗 Connect With Us</h3>
+                <p>GitHub: intelliswarm-ai/inbox-sentinel</p>
+                <p>Secure your inbox with intelligent detection</p>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-badge">🛡️ Privacy First</span>
+                <span class="tech-badge">🧠 ML-Powered</span>
+                <span class="tech-badge">⚡ Lightning Fast</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">14</span>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Change background gradient based on slide
+            const backgrounds = [
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+                'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
+            ];
+            
+            document.body.style.background = backgrounds[currentSlide];
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                previousSlide();
+            }
+        });
+    </script>
+</body>
+</html>

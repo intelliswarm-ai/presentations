@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Compass: Next-Generation AI-Powered Recruitment Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+            transition: background 0.5s ease;
+        }
+
+        .presentation-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .slide h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #ffd93d;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .slide h3 {
+            font-size: 1.6rem;
+            margin: 1rem 0;
+            color: #a8e6cf;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0.8rem 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .architecture-diagram {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .workflow-step {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #ffd93d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Hire Compass</h1>
+            <h2>Next-Generation AI-Powered Recruitment Platform</h2>
+            <div class="highlight-box">
+                <h3>🧭 Transform Talent Discovery</h3>
+                <p>Cutting-edge multi-agent AI architecture for intelligent recruitment</p>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-badge">🤖 LangChain</span>
+                <span class="tech-badge">🚀 FastAPI</span>
+                <span class="tech-badge">🧠 Ollama</span>
+                <span class="tech-badge">🐍 Python 3.9+</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Recruitment Challenge -->
+        <div class="slide">
+            <h2>The Recruitment Challenge</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>📊 Volume Problem</h3>
+                    <p>Hundreds of resumes per position, overwhelming HR teams</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🎯 Matching Difficulty</h3>
+                    <p>Skills mismatch between candidates and job requirements</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>⏱️ Time Constraints</h3>
+                    <p>Lengthy screening processes delay hiring decisions</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>💰 Cost Inefficiency</h3>
+                    <p>Enterprise-grade AI recruitment tools are expensive</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Solution -->
+        <div class="slide">
+            <h2>Hire Compass Solution</h2>
+            <div class="highlight-box">
+                <h3>🎯 Democratizing Enterprise-Grade AI Recruitment</h3>
+                <p>Advanced capabilities for organizations of all sizes</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <p>Resume Data Extraction Accuracy</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <p>Specialized AI Agents</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Multi-Dim</div>
+                    <p>Candidate-Role Scoring</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Multi-Agent Architecture -->
+        <div class="slide">
+            <h2>Multi-Agent AI System</h2>
+            <div class="agent-grid">
+                <div class="agent-card">
+                    <h3>📄 Resume Parser Agent</h3>
+                    <p>Extracts structured data from resumes with 98% accuracy</p>
+                </div>
+                <div class="agent-card">
+                    <h3>💼 Job Parser Agent</h3>
+                    <p>Analyzes job descriptions and requirements</p>
+                </div>
+                <div class="agent-card">
+                    <h3>🎯 Matching Agent</h3>
+                    <p>Semantic understanding and compatibility scoring</p>
+                </div>
+                <div class="agent-card">
+                    <h3>💰 Salary Research Agent</h3>
+                    <p>Market intelligence and compensation analysis</p>
+                </div>
+                <div class="agent-card">
+                    <h3>📊 Analytics Agent</h3>
+                    <p>Performance modeling and career insights</p>
+                </div>
+                <div class="agent-card">
+                    <h3>🔄 Orchestration Agent</h3>
+                    <p>Coordinates multi-agent workflows</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Core Features -->
+        <div class="slide">
+            <h2>Core Features</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>🧠 Intelligent Matching</h3>
+                    <p>Multi-dimensional candidate-role scoring</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🎯 Semantic Understanding</h3>
+                    <p>Deep analysis of resumes and job descriptions</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🏢 Cultural Fit Analysis</h3>
+                    <p>Assess candidate-company compatibility</p>
+                </div>
+                <div class="feature-item">
+                    <h3>📈 Career Trajectory</h3>
+                    <p>Predictive performance modeling</p>
+                </div>
+                <div class="feature-item">
+                    <h3>💰 Market Intelligence</h3>
+                    <p>Real-time salary research and benchmarking</p>
+                </div>
+                <div class="feature-item">
+                    <h3>⚡ Batch Processing</h3>
+                    <p>Handle multiple candidates simultaneously</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Technology Stack -->
+        <div class="slide">
+            <h2>Technology Stack</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🤖 AI/ML</h3>
+                    <p><strong>LangChain + Ollama</strong><br>
+                    ChromaDB, Sentence Transformers</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🚀 Backend</h3>
+                    <p><strong>FastAPI + Python 3.9+</strong><br>
+                    PostgreSQL, Redis</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🐳 Deployment</h3>
+                    <p><strong>Docker + Kubernetes</strong><br>
+                    Scalable cloud deployment</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>📊 Monitoring</h3>
+                    <p><strong>Prometheus + Grafana</strong><br>
+                    Jaeger for distributed tracing</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: How It Works -->
+        <div class="slide">
+            <h2>How It Works</h2>
+            <div class="architecture-diagram">
+                <div class="workflow-step">
+                    <strong>📄 Step 1: Upload</strong><br>
+                    Resume and job position upload with validation
+                </div>
+                <div class="workflow-step">
+                    <strong>🧠 Step 2: Parse</strong><br>
+                    AI agents extract and structure data with 98% accuracy
+                </div>
+                <div class="workflow-step">
+                    <strong>🎯 Step 3: Match</strong><br>
+                    Semantic analysis and multi-dimensional scoring
+                </div>
+                <div class="workflow-step">
+                    <strong>💰 Step 4: Research</strong><br>
+                    Market intelligence and salary benchmarking
+                </div>
+                <div class="workflow-step">
+                    <strong>📊 Step 5: Insights</strong><br>
+                    Career recommendations and performance predictions
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Matching Engine -->
+        <div class="slide">
+            <h2>Intelligent Matching Engine</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>🔍 Skills Analysis</h3>
+                    <p>Technical and soft skills extraction<br>
+                    Proficiency level assessment<br>
+                    Skills gap identification</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>📈 Experience Scoring</h3>
+                    <p>Relevant experience weighting<br>
+                    Industry expertise evaluation<br>
+                    Career progression analysis</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🎯 Cultural Fit</h3>
+                    <p>Company values alignment<br>
+                    Work style compatibility<br>
+                    Team dynamics assessment</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🔮 Future Potential</h3>
+                    <p>Growth trajectory prediction<br>
+                    Learning capacity assessment<br>
+                    Adaptation potential scoring</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Key Benefits -->
+        <div class="slide">
+            <h2>Key Benefits</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>⚡ Speed</h3>
+                    <p>Reduce screening time from hours to minutes with automated processing</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>🎯 Accuracy</h3>
+                    <p>98% resume parsing accuracy with semantic understanding</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>💰 Cost Efficiency</h3>
+                    <p>Enterprise-grade AI capabilities at affordable pricing</p>
+                </div>
+                <div class="comparison-card">
+                    <h3>📊 Insights</h3>
+                    <p>Deep candidate analysis with market intelligence</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Use Cases -->
+        <div class="slide">
+            <h2>Use Cases</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>🏢 Enterprise Hiring</h3>
+                    <p>Large-scale recruitment campaigns</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🚀 Startup Scaling</h3>
+                    <p>Rapid team building and talent acquisition</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🔍 Executive Search</h3>
+                    <p>Senior leadership and specialist roles</p>
+                </div>
+                <div class="feature-item">
+                    <h3>📊 Talent Analytics</h3>
+                    <p>Market research and compensation planning</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🎯 Niche Recruiting</h3>
+                    <p>Specialized technical and creative roles</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🌐 Remote Hiring</h3>
+                    <p>Global talent acquisition and assessment</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: API & Integration -->
+        <div class="slide">
+            <h2>API & Integration</h2>
+            <div class="architecture-diagram">
+                <h3>🔌 RESTful API</h3>
+                <div class="workflow-step">
+                    <strong>Single Resume Matching:</strong> POST /api/match/single
+                </div>
+                <div class="workflow-step">
+                    <strong>Batch Processing:</strong> POST /api/match/batch
+                </div>
+                <div class="workflow-step">
+                    <strong>Salary Research:</strong> GET /api/salary/research
+                </div>
+                <div class="workflow-step">
+                    <strong>Career Insights:</strong> GET /api/insights/career
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Getting Started -->
+        <div class="slide">
+            <h2>Getting Started</h2>
+            <div class="highlight-box">
+                <h3>🚀 Quick Setup</h3>
+                <div class="architecture-diagram">
+                    <div class="workflow-step">
+                        <strong>1. Install:</strong> <code>pip install -r requirements.txt</code>
+                    </div>
+                    <div class="workflow-step">
+                        <strong>2. Configure:</strong> Set up AI models and database connections
+                    </div>
+                    <div class="workflow-step">
+                        <strong>3. Run:</strong> <code>uvicorn main:app --reload</code>
+                    </div>
+                    <div class="workflow-step">
+                        <strong>4. Deploy:</strong> Docker and Kubernetes ready
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Thank You -->
+        <div class="slide">
+            <h1>Thank You</h1>
+            <h2>Questions & Discussion</h2>
+            <div class="highlight-box">
+                <h3>🔗 Connect With Us</h3>
+                <p>GitHub: intelliswarm-ai/hire-compass</p>
+                <p>Transform recruitment with intelligent matching</p>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-badge">🧭 Smart Matching</span>
+                <span class="tech-badge">🤖 AI-Powered</span>
+                <span class="tech-badge">⚡ Lightning Fast</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">13</span>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Change background gradient based on slide
+            const backgrounds = [
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+                'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+            ];
+            
+            document.body.style.background = backgrounds[currentSlide];
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                previousSlide();
+            }
+        });
+    </script>
+</body>
+</html>
