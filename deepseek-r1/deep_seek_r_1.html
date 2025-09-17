@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DeepSeek‑R1: Incentivizing Reasoning in LLMs via RL — Key Findings</title>
+  <style>
+    :root{
+      --bg:#0b1220; --fg:#e9eef7; --muted:#9fb0c7; --accent:#7cdcff; --card:#121a2b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial}
+    .deck{height:100dvh;overflow:hidden;position:relative}
+    .slide{position:absolute;inset:0;padding:72px 80px;display:none}
+    .slide.current{display:block}
+    h1,h2{margin:0 0 .6rem 0}
+    h1{font-size:2.4rem}
+    h2{font-size:2rem}
+    p{max-width:1100px;font-size:1.2rem;color:var(--muted)}
+    ul{max-width:1200px;font-size:1.3rem;line-height:1.6}
+    li{margin:.4rem 0}
+    .badge{display:inline-block;padding:.2rem .55rem;border:1px solid #2a3958;border-radius:999px;color:#b9c9df;font-size:.85rem;margin-right:.4rem}
+    .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:18px;max-width:1200px}
+    .card{background:var(--card);border:1px solid #1c2842;padding:18px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .card h3{margin:0 0 .25rem 0;font-size:1.25rem}
+    .foot{position:absolute;left:80px;right:80px;bottom:28px;display:flex;justify-content:space-between;color:#7b8aa6;font-size:.95rem;opacity:.9}
+    .num{opacity:.6}
+    .hint{position:absolute;right:24px;top:24px;color:#7b8aa6;font-size:.9rem}
+    .title{font-size:3rem;letter-spacing:.4px}
+    .sub{color:#b2c3da;margin-top:.6rem}
+    .pill{background:#112238;border:1px solid #22406b;border-radius:999px;padding:.22rem .6rem;margin-left:.35rem;font-size:.9rem}
+    .small{font-size:1.05rem}
+    .grid-2{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;max-width:1200px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;}
+    .center{display:flex;align-items:center}
+    .sep{height:1px;background:#1c2842;margin:10px 0 16px}
+    .hl{color:var(--accent)}
+    @media print{.slide{display:block;page-break-after:always;position:relative}}
+  </style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <!-- 1 -->
+  <section class="slide current">
+    <div class="hint">← / → or click</div>
+    <h1 class="title">DeepSeek‑R1: Incentivizing Reasoning in LLMs via RL</h1>
+    <p class="sub">Key findings from the paper introducing <b>DeepSeek‑R1‑Zero</b> (pure RL) and <b>DeepSeek‑R1</b> (cold‑start + RL), plus distilled small models.</p>
+    <div class="kpi">
+      <div class="card"><h3>Headline</h3><div class="sep"></div><p>Comparable to OpenAI‑o1‑1217 on reasoning benchmarks; open‑sourced checkpoints and distilled models.</p></div>
+      <div class="card"><h3>What’s novel?</h3><div class="sep"></div><p>First open report that strong reasoning can emerge in LLMs via <span class="hl">pure RL</span> without SFT; emergent behaviors like self‑verification and an “aha moment”.</p></div>
+    </div>
+    <div class="foot"><span class="num">1 / 15</span><span>DeepSeek‑AI (2025)</span></div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <h2>Motivation & context</h2>
+    <ul>
+      <li>OpenAI’s o1 showed gains by scaling <i>test‑time</i> chain‑of‑thought (CoT) length, but how to <b>learn</b> such behavior remains open.</li>
+      <li>Prior approaches: PRMs, RL, and search (MCTS/beam) — none broadly matched o1 across tasks.</li>
+      <li>Goal: develop <b>general reasoning</b> in LLMs with minimal supervised data and simple infrastructure.</li>
+    </ul>
+    <div class="foot"><span class="num">2 / 15</span><span>Problem framing</span></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide">
+    <h2>Contributions (at a glance)</h2>
+    <ul>
+      <li><b>DeepSeek‑R1‑Zero:</b> pure RL from a base model (no SFT), learning long CoTs, reflection, self‑verification.</li>
+      <li><b>DeepSeek‑R1:</b> add a small, human‑readable cold‑start set → RL → rejection‑sampled SFT → RL‑all‑scenarios.</li>
+      <li><b>Distillation:</b> 800k teacher samples → strong <span class="hl">1.5B–70B</span> dense students (Qwen & Llama).</li>
+      <li><b>Open release:</b> R1‑Zero, R1, and six distilled checkpoints.</li>
+    </ul>
+    <div class="foot"><span class="num">3 / 15</span><span>What’s new</span></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <h2>Method overview</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Three pillars</h3>
+        <ul class="small">
+          <li class="badge">(1)</li> R1‑Zero: RL directly on DeepSeek‑V3‑Base.
+          <li class="badge">(2)</li> R1: cold‑start SFT → RL → SFT by rejection sampling → RL for all scenarios.
+          <li class="badge">(3)</li> Distill R1’s reasoning into smaller dense models.
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Training template</h3>
+        <p class="small mono">&lt;think&gt; … reasoning … &lt;/think&gt;<br/>&lt;answer&gt; … final answer … &lt;/answer&gt;</p>
+        <p class="small">Minimal constraints to let behaviors emerge during RL.</p>
+      </div>
+    </div>
+    <div class="foot"><span class="num">4 / 15</span><span>Big picture</span></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <h2>RL core: GRPO</h2>
+    <ul>
+      <li><b>Group‑Relative Policy Optimization</b> removes the large critic; uses group scores as a baseline.</li>
+      <li>Stabilizes large‑scale RL while reducing compute cost.</li>
+      <li>Reward = advantage from grouped samples; KL term keeps policy near reference.</li>
+    </ul>
+    <div class="foot"><span class="num">5 / 15</span><span>Algorithm</span></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <h2>Rewards that drive reasoning</h2>
+    <ul>
+      <li><b>Accuracy rewards:</b> rule‑checked correctness (math boxed answers; code via tests/compilers).</li>
+      <li><b>Format rewards:</b> enforce <span class="mono">&lt;think&gt;…&lt;/think&gt;</span> and <span class="mono">&lt;answer&gt;…&lt;/answer&gt;</span>.</li>
+      <li><b>No neural PRMs</b> in R1‑Zero to avoid reward hacking and extra complexity.</li>
+    </ul>
+    <div class="foot"><span class="num">6 / 15</span><span>Reward design</span></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide">
+    <h2>Emergent behaviors in R1‑Zero</h2>
+    <ul>
+      <li>Steadily lengthens CoT and allocates more test‑time compute as training progresses.</li>
+      <li>Spontaneous <b>reflection</b> and self‑verification.</li>
+      <li>A striking <b>“aha moment”</b> mid‑training where the model rethinks and corrects course.</li>
+      <li><span class="muted">Drawbacks:</span> poor readability; language mixing.</li>
+    </ul>
+    <div class="foot"><span class="num">7 / 15</span><span>Self‑evolution</span></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide">
+    <h2>Why R1 (beyond R1‑Zero)?</h2>
+    <ul>
+      <li>Provide a <b>readable</b>, human‑friendly format via a small cold‑start SFT set.</li>
+      <li>Add a <b>language‑consistency reward</b> to reduce mixing and improve presentation.</li>
+      <li>Expand to non‑reasoning capabilities with curated SFT and RL for helpfulness/harmlessness.</li>
+    </ul>
+    <div class="foot"><span class="num">8 / 15</span><span>Motivation</span></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide">
+    <h2>R1 pipeline: 4 stages</h2>
+    <ol class="small">
+      <li><b>Cold‑start SFT</b> on thousands of long CoTs with a clean |reasoning|summary| pattern.</li>
+      <li><b>Reasoning‑oriented RL</b> (math/code/STEM) with added language‑consistency reward.</li>
+      <li><b>Rejection‑sampled SFT</b>: harvest correct, readable trajectories (~600k reasoning + ~200k general).</li>
+      <li><b>RL for all scenarios</b>: mix rule‑based rewards (reasoning) and preference RM (helpful/harmless).</li>
+    </ol>
+    <div class="foot"><span class="num">9 / 15</span><span>Training recipe</span></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide">
+    <h2>Evaluation setup</h2>
+    <ul>
+      <li>Max output length up to <b>32,768 tokens</b> for reasoning models.</li>
+      <li>Use <b>pass@k</b> sampling; report <b>pass@1</b> with T=0.6, top‑p=0.95; majority voting (<b>cons@64</b>) for AIME.</li>
+      <li>Benchmarks span math, code competitions & engineering, knowledge (MMLU/GPQA), and LLM‑judge win‑rates.</li>
+    </ul>
+    <div class="foot"><span class="num">10 / 15</span><span>Metrics & protocols</span></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide">
+    <h2>Headline results (DeepSeek‑R1)</h2>
+    <div class="kpi">
+      <div class="card"><h3>Math</h3><p>AIME‑2024 <b>79.8%</b> (pass@1); MATH‑500 <b>97.3%</b> — on par with o1‑1217.</p></div>
+      <div class="card"><h3>Knowledge</h3><p>MMLU <b>90.8%</b>; GPQA‑Diamond <b>71.5%</b> — strong STEM gains from RL.</p></div>
+      <div class="card"><h3>Coding</h3><p>Codeforces <b>96.3%</b> percentile (~2029 Elo); SWE‑Verified comparable to o1‑1217.</p></div>
+    </div>
+    <p class="small">Overall: competitive with o1‑1217; surpasses many non‑reasoning models across domains.</p>
+    <div class="foot"><span class="num">11 / 15</span><span>Performance</span></div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide">
+    <h2>Distillation: small models, big gains</h2>
+    <ul>
+      <li>~<b>800k</b> teacher samples from R1 → distilled students (Qwen/Llama).</li>
+      <li><b>Qwen‑32B:</b> AIME 72.6, MATH‑500 94.3, LiveCode 57.2 — rivals o1‑mini.</li>
+      <li><b>Llama‑70B:</b> AIME 70.0, MATH‑500 94.5.</li>
+      <li><b>Qwen‑7B:</b> AIME 55.5, MATH‑500 83.3; <b>Qwen‑1.5B:</b> AIME 28.9, MATH‑500 83.9.</li>
+    </ul>
+    <div class="foot"><span class="num">12 / 15</span><span>R1 → Students</span></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide">
+    <h2>Distillation vs. RL on small models</h2>
+    <ul>
+      <li>Large‑scale RL on a 32B base (R1‑Zero‑Qwen‑32B) ≈ QwQ‑32B‑Preview.</li>
+      <li><b>Distilled Qwen‑32B</b> from R1 dramatically <b>outperforms</b> the RL‑trained counterpart across benchmarks.</li>
+      <li>Conclusion: for small models, <b>distillation is more compute‑efficient</b> and stronger than doing RL from scratch.</li>
+    </ul>
+    <div class="foot"><span class="num">13 / 15</span><span>Compute trade‑offs</span></div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide">
+    <h2>Limitations & practical tips</h2>
+    <ul>
+      <li>Gaps vs. DeepSeek‑V3 in <b>function calling</b>, multi‑turn role‑play, JSON output.</li>
+      <li>Potential <b>language mixing</b> outside Chinese/English; mitigated but not gone.</li>
+      <li><b>Prompting:</b> prefer <b>zero‑shot</b> with explicit format; few‑shot can hurt R1.</li>
+      <li>Software‑engineering tasks not yet strongly improved due to slow evaluations.</li>
+    </ul>
+    <div class="foot"><span class="num">14 / 15</span><span>Caveats</span></div>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide">
+    <h2>Takeaways</h2>
+    <ul>
+      <li><b>Pure RL can elicit strong reasoning</b> (R1‑Zero), with emergent long‑CoT behaviors.</li>
+      <li>A small <b>cold‑start + staged RL/SFT</b> yields a readable, high‑performing R1 model.</li>
+      <li><b>Distillation scales access</b>: 1.5B–70B dense models achieve state‑of‑the‑art open‑source results.</li>
+      <li>Models and checkpoints are <b>open‑sourced</b> for the community.</li>
+    </ul>
+    <p class="small">Questions or edits? Jump to any slide and tweak the bullets.</p>
+    <div class="foot"><span class="num">15 / 15</span><span>Thanks!</span></div>
+  </section>
+</div>
+
+<script>
+(function(){
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  function show(n){slides[i].classList.remove('current');i=(n+slides.length)%slides.length;slides[i].classList.add('current');}
+  function next(){show(i+1)}
+  function prev(){show(i-1)}
+  addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))next();if(['ArrowLeft','PageUp','Backspace'].includes(e.key))prev()});
+  addEventListener('click',e=>next());
+})();
+</script>
+</body>
+</html>
